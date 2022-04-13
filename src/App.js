@@ -1,22 +1,21 @@
-import React, { Component } from 'react'
-import Square from './components/Square'
-import './App.css'
+import React, { Component } from 'react';
+import './App.css';
+import './TicTacToe.css';
+import Game from './Game.js';
 
-class App extends Component{
-  constructor(props){
-    super(props)
-    this.state = {
-      squares: [0, 0, 0, 0, 0, 0, 0, 0, 0]
-    }
-  }
-
-  render(){
-    return(
-      <>
-        <h1>Tic Tac Toe</h1>
-        <Square />
-      </>
-    )
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+        <div className="App-header">
+          <h2>Let's Play Tic Tac Toe!</h2>
+        </div>
+        <p className="App-intro">
+          <Game></Game>
+        </p>
+      </div>
+    );
   }
 }
-export default App
+
+export default App;
