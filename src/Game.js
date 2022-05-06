@@ -31,8 +31,25 @@ class Game extends React.Component {
       }],
       xIsNext: true,
       stepNumber: 0,
+      windowHeight: undefined,
+      windowWidth: undefined
     };
   }
+
+  handleResize = () => this.setState({
+    windowHeight: window.innerHeight,
+    windowWidth: window.innerWidth
+  });
+
+  componentDidMount() {
+    this.handleResize();
+    window.addEventListener('resize', this.handleResize)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize)
+  }
+
   jumpTo(step) {
     if (step === 0) {
       this.setState({
@@ -91,7 +108,7 @@ class Game extends React.Component {
 
     return (
       <div className="game">
-        {winner && <Confetti width={1400} height={1400} numberOfPieces={'1110'} />}
+        {winner && <Confetti width={this.state.windowWidth} height={this.state.windowHeight} numberOfPieces={'1110'} />}
         <div className="game-board">
           <Board squares={current.squares} onClick={(i) => this.handleClick(i)} />
         </div>
