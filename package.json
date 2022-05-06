@@ -2,9 +2,12 @@
   "name": "tic-tac-toe-project",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://portfolio-git-main-samirkhoury98.vercel.app/portfolio-projects/tic-tac-toe/",
   "dependencies": {
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react-confetti": "^6.0.1",
+    "react-dom": "^16.8.6",
+    "react-use": "^17.3.2"
   },
   "devDependencies": {
     "react-scripts": "3.0.0"

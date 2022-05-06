@@ -1,5 +1,6 @@
 import React from 'react';
 import Board from './components/Board';
+import Confetti from 'react-confetti';
 
 function calculateWinner(squares) {
   const lines = [
@@ -22,7 +23,7 @@ function calculateWinner(squares) {
 }
 
 class Game extends React.Component {
-  constructor(){
+  constructor() {
     super();
     this.state = {
       history: [{
@@ -33,13 +34,23 @@ class Game extends React.Component {
     };
   }
   jumpTo(step) {
-    this.setState({
-      stepNumber: step,
-      xIsNext: (step % 2) ? false : true,
-    });
+    if (step === 0) {
+      this.setState({
+        history: [{
+          squares: Array(9).fill(null)
+        }],
+        stepNumber: step,
+        xIsNext: (step % 2) ? false : true,
+      });
+    } else {
+      this.setState({
+        stepNumber: step,
+        xIsNext: (step % 2) ? false : true,
+      });
+    }
   }
   handleClick(i) {
-    const history = this.state.history.slice(0, this.state.stepNumber+1)
+    const history = this.state.history.slice(0, this.state.stepNumber + 1)
     const current = history[history.length - 1];
     const squares = current.squares.slice();
     if (calculateWinner(squares) || squares[i]) {
@@ -58,29 +69,37 @@ class Game extends React.Component {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
+
     let status;
-    if(winner){
+    if (winner) {
       status = 'Winner: ' + winner;
-    }else{
+    } else {
       status = 'Next player: ' + (this.state.xIsNext ? '❌' : '⭕️');
     }
+
     const moves = history.map((step, move) => {
-      const desc = move ? 'Move #' + move : 'Game start';
+      console.log(move);
+      const player = move % 2 ? 'Player One Move' : 'Player Two Move';
+      const desc = move ? `${move} - ${player}` : 'Game start';
+
       return (
         <li key={move}>
-          <a href="#" onClick={() => this.jumpTo(move)}>{desc}</a>
+          <a href="#" onClick={() => this.jumpTo(move)}>{desc} {move} </a>
         </li>
       );
     });
 
     return (
       <div className="game">
+        {winner && <Confetti width={1400} height={1400} numberOfPieces={'1110'} />}
         <div className="game-board">
-          <Board squares={current.squares} onClick={(i)=>this.handleClick(i)}/>
+          <Board squares={current.squares} onClick={(i) => this.handleClick(i)} />
         </div>
         <div className="game-info">
-          <div>{ status }</div>
-          <ol>{ moves }</ol>
+          <div>{status}</div>
+          <h2> MOVES: </h2>
+          <ol>{moves}</ol>
+
         </div>
       </div>
     );
